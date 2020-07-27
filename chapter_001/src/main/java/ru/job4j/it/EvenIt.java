@@ -13,14 +13,9 @@ public class EvenIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        if (point < data.length) {
-            while (data[point] % 2 != 0) {
+            while (point < data.length && data[point] % 2 != 0 || point == data.length) {
                 point++;
-                if (point == data.length) {
-                    break;
-                }
             }
-        }
         return point < data.length;
     }
 
