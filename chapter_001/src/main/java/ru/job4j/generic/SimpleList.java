@@ -19,7 +19,7 @@ public class SimpleList<T> implements Iterable<T> {
     }
 
     public void set(int index, T elem) {
-        Objects.checkIndex(index, obj.length);
+        Objects.checkIndex(index, position );
         this.obj[index] = elem;
     }
 
