@@ -24,19 +24,19 @@ public class SimpleList<T> implements Iterable<T> {
     }
 
     public void remove(int index) {
-        Objects.checkIndex(index, obj.length);
+        Objects.checkIndex(index, position);
         System.arraycopy(this.obj, index + 1, this.obj, index, this.obj.length - 1 - index);
         this.obj[this.obj.length - 1] = null;
         this.position--;
     }
 
     public T get(int index) {
-        Objects.checkIndex(index, obj.length);
+        Objects.checkIndex(index, position);
         return (T) this.obj[index];
     }
 
     public int getSize() {
-        return this.obj.length;
+        return this.position;
     }
 
     @Override

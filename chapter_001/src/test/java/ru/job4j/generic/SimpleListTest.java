@@ -35,7 +35,7 @@ public class SimpleListTest {
         assertThat(list.getSize(), is(3));
     }
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void whenAddThreeElementsThenUseDeleteFirstResultTwoAndSizeWillTwo() {
         list.remove(1);
         assertThat(list.get(1), is(3));
