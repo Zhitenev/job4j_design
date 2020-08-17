@@ -17,7 +17,7 @@ public final class MemStore<T extends Base> implements Store<T> {
         boolean res = false;
         int index = findIndex(id);
         if (index != -1) {
-            mem.set(findIndex(id), model);
+            mem.set(index, model);
             res = true;
         }
         return res;
@@ -36,18 +36,24 @@ public final class MemStore<T extends Base> implements Store<T> {
 
     @Override
     public T findById(String id) {
-        return mem.get(findIndex(id));
+        T res = null;
+        int index = findIndex(id);
+        if (index != -1) {
+            res =  mem.get(index);
+        }
+        return res;
     }
 
     private int findIndex(String id) {
+        int i;
         int res = -1;
-        for (T t: mem) {
-            if (!t.getId().equals(id)) {
-                res++;
-            } else {
+        for (i = 0; i < mem.size(); i++) {
+            if (mem.get(i).getId().equals(id)) {
+                i++;
                 break;
             }
         }
+        res += i;
         return res;
     }
 }
