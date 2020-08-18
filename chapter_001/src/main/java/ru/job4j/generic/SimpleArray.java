@@ -23,7 +23,6 @@ public class SimpleArray<T> implements Iterable<T> {
             System.arraycopy(this.obj, 0, tmp, 0, this.obj.length);
             this.obj = tmp;
         }
-        Objects.checkIndex(position, obj.length);
         this.obj[position++] = model;
         modCount++;
     }
