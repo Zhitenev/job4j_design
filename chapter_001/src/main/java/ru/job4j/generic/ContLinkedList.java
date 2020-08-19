@@ -23,10 +23,10 @@ public class ContLinkedList<T> implements Iterable<T> {
     public T get(int index) {
         T res = null;
         Node<T> tmp = head;
-        for (int i = 0; i <= index; i++) {
-            res = tmp.item;
+        for (int i = 0; i < index; i++) {
             tmp = tmp.next;
         }
+        res = tmp.item;
         return res;
     }
 
