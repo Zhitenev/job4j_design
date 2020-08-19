@@ -53,11 +53,8 @@ public class ContLinkedList<T> implements Iterable<T> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            T res = null;
-            while (tmp != null) {
-                res = tmp.item;
-                tmp = tmp.next;
-            }
+            T res = tmp.item;
+            tmp = tmp.next;
             return res;
         }
     }
