@@ -11,9 +11,7 @@ public class SimpleQueue<T> {
         if (count == 0) {
             throw new NoSuchElementException();
         }
-        rePlace();
-        count--;
-        return out.pop();
+        return rePlace();
     }
 
     public void push(T value) {
@@ -21,9 +19,20 @@ public class SimpleQueue<T> {
         count++;
     }
 
-    private void rePlace() {
+    private T rePlace() {
+        int inCount = 0;
+        T res = null;
         for (int i = 0; i <= count; i++) {
             out.push(in.pop());
+            count--;
+            inCount++;
         }
+        res = out.pop();
+        inCount--;
+        for (int i = 0; i < inCount; i++) {
+            in.push(out.pop());
+            count++;
+        }
+        return res;
     }
 }
