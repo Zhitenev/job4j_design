@@ -9,7 +9,7 @@ public class SimpleQueue<T> {
     private int outCount = 0;
 
     public T poll() {
-        if (count == 0) {
+        if (count == 0 && outCount == 0) {
             throw new NoSuchElementException();
         }
         return rePlace();
