@@ -5,6 +5,7 @@ import ru.job4j.generic.SimpleArray;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SimpleSet<E> implements Iterable<E> {
 
@@ -24,7 +25,7 @@ public class SimpleSet<E> implements Iterable<E> {
         boolean ch = false;
         if(simpleSet != null) {
             for (E tmp : simpleSet) {
-                if (tmp.equals(e)) {
+                if (Objects.equals(tmp, e)) {
                     ch = true;
                     break;
                 }
