@@ -42,8 +42,15 @@ public class SimpleHashMapTest {
         simpleHashMap.insert("first", 1);
         simpleHashMap.insert("second", 2);
         simpleHashMap.insert("third", 3);
-        simpleHashMap.insert("first", 5);
-        assertThat(simpleHashMap.get("first"), is(5));
+        simpleHashMap.insert("four", 4);
+        simpleHashMap.insert("six", 6);
+        simpleHashMap.insert("seven", 7);
+        simpleHashMap.insert("fgdfgdfg", 8);
+        simpleHashMap.insert("fgdfgdfgfdf", 9);
+        simpleHashMap.insert("fgdfgdfgfdfs", 91);
+        assertThat(simpleHashMap.get("six"), is(6));
+        assertThat(simpleHashMap.get("seven"), is(7));
+        assertThat(simpleHashMap.get("first"), is(1));
     }
 
     @Test

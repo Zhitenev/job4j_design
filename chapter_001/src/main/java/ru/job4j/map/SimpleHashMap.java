@@ -7,37 +7,54 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SimpleHashMap<K, V> implements Iterable<V> {
-    private static final int DEFAULT_CAPACITY = 16;
-    private Object[] objects = new Object[DEFAULT_CAPACITY];
+    private static final int DEFAULT_CAPACITY = 8;
+    private Object[][] objects = new Object[DEFAULT_CAPACITY][2];
     private int position = 0;
+    private int size = DEFAULT_CAPACITY;
 
     boolean insert(K key, V value) {
         canInsert();
+        boolean res = false;
         int id = hash(key);
-        objects[id] = value;
-        position++;
-        return objects[id] != null;
+        if (objects[id] != null && (V) objects[hash(key)][1] != key) {
+            objects[id] = new Object[]{key, value};
+            position++;
+            res = objects[id] != null;
+        }
+        return res;
     }
 
     boolean delete(K key) {
         int id = hash(key);
-        objects[id] = null;
+        objects[id][1] = null;
         position--;
-        return objects[id] == null;
+        return objects[id][1] == null;
     }
 
     V get(K key) {
-        return (V) objects[hash(key)];
+        V res = null;
+        if (objects[hash(key)][1] != null || (V) objects[hash(key)][1] == key) {
+            res = (V) objects[hash(key)][1];
+        }
+        return res;
     }
 
     private int hash(K key) {
-        int id = key.hashCode() % objects.length;
-        return id & (objects.length - 1);
+        int id = key.hashCode() % size;
+        return id & (size - 1);
     }
 
     private void canInsert() {
         if (position >= objects.length) {
-            this.objects = Arrays.copyOf(this.objects, this.position + DEFAULT_CAPACITY);
+            size *= 2;
+            Object[][] newArray = new Object[this.position + DEFAULT_CAPACITY][2];
+            for (Object[] tmp : objects) {
+                if(tmp[0] != null) {
+                    int id = hash((K) tmp[0]);
+                    newArray[id] = tmp;
+                }
+            }
+            this.objects = newArray;
         }
     }
 
@@ -56,7 +73,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
 
         @Override
         public V next() {
-            Object result = null;
+            Object[] result = null;
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -64,14 +81,14 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
                 throw new ConcurrentModificationException();
             }
             for (int i = nextPosition; i < objects.length; i++) {
-                if (objects[i] != null) {
+                if (objects[i][1] != null) {
                     result = objects[i];
                     nextPosition = i + 1;
                     expectedModCount++;
                     break;
                 }
             }
-            return (V) result;
+            return (V) result[1];
         }
     }
 }
