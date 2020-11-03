@@ -2,7 +2,9 @@ package ru.job4j.map;
 
 import org.junit.Test;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -107,6 +109,20 @@ public class SimpleHashMapTest {
     }
 
     @Test
+    public void whenInsertInSimpleMapAndDUseIteratorForFourElemAnd() {
+        SimpleHashMap<String, Integer> simpleHashMap = new SimpleHashMap<>();
+        simpleHashMap.insert("first", 1);
+        simpleHashMap.insert("second", 2);
+        simpleHashMap.insert("third", 3);
+        simpleHashMap.insert("four", 4);
+        Iterator iterator = simpleHashMap.iterator();
+        iterator.next();
+        iterator.next();
+        assertThat(iterator.next(), is(4));
+        assertThat(iterator.next(), is(3));
+    }
+
+    @Test
     public void whenInsertInSimpleMapAndDUseIteratorForFourElemIntegerKey() {
         SimpleHashMap<Integer, Integer> simpleHashMap = new SimpleHashMap<>();
         simpleHashMap.insert(1, 1);
@@ -142,5 +158,35 @@ public class SimpleHashMapTest {
         iterator.next();
         iterator.next();
         assertThat(iterator.hasNext(), is(false));
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenInsertInSimpleMapAndDUseIteratorForFourElemOver() {
+        SimpleHashMap<String, Integer> simpleHashMap = new SimpleHashMap<>();
+        simpleHashMap.insert("first", 1);
+        simpleHashMap.insert("second", 2);
+        simpleHashMap.insert("third", 3);
+        simpleHashMap.insert("four", 4);
+        Iterator iterator = simpleHashMap.iterator();
+        iterator.next();
+        iterator.next();
+        iterator.next();
+        iterator.next();
+        iterator.next();
+    }
+
+    @Test(expected = ConcurrentModificationException.class)
+    public void whenInsertInSimpleMapAndDUseIteratorForFourElemMod() {
+        SimpleHashMap<String, Integer> simpleHashMap = new SimpleHashMap<>();
+        simpleHashMap.insert("first", 1);
+        simpleHashMap.insert("second", 2);
+        simpleHashMap.insert("third", 3);
+        Iterator iterator = simpleHashMap.iterator();
+        iterator.next();
+        simpleHashMap.insert("four", 4);
+        iterator.next();
+        iterator.next();
+        iterator.next();
+        iterator.next();
     }
 }
