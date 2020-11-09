@@ -31,19 +31,18 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
 
     boolean delete(K key) {
         int id = hash(key);
-        if(objects[id][KEY].equals(key)) {
-            objects[id][VALUE] = null;
+        if(objects[id] != null && objects[id][KEY].equals(key)) {
+            objects[id] = null;
             position--;
             modCount++;
         }
-        return objects[id][VALUE] == null;
+        return objects[id] == null;
     }
 
     V get(K key) {
         V res = null;
-        if (objects[hash(key)][VALUE] != null || objects[hash(key)][KEY].equals(key)) {
+        if (objects[hash(key)] != null && objects[hash(key)][KEY].equals(key)) {
             res = (V) objects[hash(key)][VALUE];
-            modCount++;
         }
         return res;
     }
@@ -54,11 +53,11 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
 
     private void canInsert() {
         if (position >= objects.length * LOAD_FACTOR) {
-            size *= 2;
-            Object[][] newArray = new Object[this.position + DEFAULT_CAPACITY][2];
+            size += DEFAULT_CAPACITY;
+            Object[][] newArray = new Object[size][2];
             for (Object[] tmp : objects) {
-                if(tmp[0] != null) {
-                    int id = hash((K) tmp[0]);
+                if(tmp != null && tmp[KEY] != null) {
+                    int id = hash((K) tmp[KEY]);
                     newArray[id] = tmp;
                 }
             }
