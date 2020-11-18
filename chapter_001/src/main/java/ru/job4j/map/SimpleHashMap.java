@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 public class SimpleHashMap<K, V> implements Iterable<V> {
     private static final int DEFAULT_CAPACITY = 8;
     private static final double LOAD_FACTOR = 0.75;
-    private inValue[] objects = new inValue[DEFAULT_CAPACITY];
+    private Invalue[] objects = new Invalue[DEFAULT_CAPACITY];
     private int position = 0;
     private int size = DEFAULT_CAPACITY;
     public static int modCount = 0;
@@ -17,7 +17,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         boolean res = false;
         int id = hash(key);
         if (objects[id] == null || objects[id].getKey().equals(key)) {
-            objects[id] = new inValue(key, value);
+            objects[id] = new Invalue(key, value);
             position++;
             res = objects[id] != null;
             modCount++;
@@ -51,8 +51,8 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
     private void canInsert() {
         if (position >= objects.length * LOAD_FACTOR) {
             size += DEFAULT_CAPACITY;
-            inValue[] newArray = new inValue[size];
-            for (inValue tmp : objects) {
+            Invalue[] newArray = new Invalue[size];
+            for (Invalue tmp : objects) {
                 if(tmp != null && tmp.getKey() != null) {
                     int id = hash((K) tmp.getKey());
                     newArray[id] = tmp;
@@ -62,11 +62,11 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         }
     }
 
-    private class inValue <K, V> {
+    private class Invalue <K, V> {
         private K key;
         private V value;
 
-        public inValue(K key, V value) {
+        public Invalue(K key, V value) {
             this.key = key;
             this.value = value;
         }
@@ -96,7 +96,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
 
         @Override
         public V next() {
-            inValue result = null;
+            Invalue result = null;
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
