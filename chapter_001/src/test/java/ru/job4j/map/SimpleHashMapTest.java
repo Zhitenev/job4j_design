@@ -18,6 +18,8 @@ public class SimpleHashMapTest {
         simpleHashMap.insert("second", 2);
         simpleHashMap.insert("third", 3);
         assertThat(simpleHashMap.get("second"), is(2));
+        assertThat(simpleHashMap.get("first"), is(1));
+        assertThat(simpleHashMap.get("third"), is(3));
     }
 
     @Test
