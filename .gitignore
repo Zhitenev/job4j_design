@@ -5,6 +5,7 @@
 *.swp
 *.out
 *.log
+*.txt
 
 # rails specific
 *.sqlite3
